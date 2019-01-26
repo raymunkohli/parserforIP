@@ -12,7 +12,10 @@
     <state name="ok"/>
     <state name="fail"/>
     <transition xsi:type="cw:probabilistic" to="//@machine.1/@state.1" from="//@machine.1/@state.0" parameter="0.1" distribution="exponential"/>
-    <transition xsi:type="cw:probabilistic" to="//@machine.1/@state.1" from="//@machine.1/@state.0" parameter="20.0"/>
+    <transition xsi:type="cw:probabilistic" to="//@machine.1/@state.0" from="//@machine.1/@state.1" parameter="20.0" distribution="exponential"/>
+    <transition xsi:type="cw:deterministic" to="//@machine.1/@state.0" from="//@machine.1/@state.1" parameter="33.0"/>
+    <property name="123" value="123" type="123"/>
+    <property name="433" value="443" type="433"/>
   </machine>
   <network>
     <machine name="mamamia" parent="//@network.0"/>

@@ -26,6 +26,7 @@ def deconstruct_tree(tree):
 def processMachine(machine):
     states = []
     transitions = {}
+    properties = {}
     # get states
     initial = machine.get("initial").split(".")[-1]
     #  get initial state
@@ -50,7 +51,7 @@ def processMachine(machine):
                     }
             else:
                 transition = {
-                    states[toid]: [
+                    toid: [
                         {
                             "type": "deterministic",
                             "parameter": child.get("parameter")
@@ -59,17 +60,24 @@ def processMachine(machine):
                 }
 
             if fromid in transitions:
-                transitions[fromid] = transitions[fromid] + transition
-                print("old")
+                a = transitions[fromid]
+                transitions[fromid].append(transition)
             else:
-                print("new")
-                transitions[fromid] = transition
+                transitions[fromid] = []
+                transitions[fromid].append(transition)
+        if child.tag =="property":
+            prop = {
+                "type" : child.get("type"),
+                "required": True,
+            }
+            properties[child.get("name")] = prop
 
 
     # get initial state
     data = {
         "name": machine.get("name"),
         "type": machine.get("type"),
+        "properties": properties,
         "structure": {
             "states": states,
             "initial": states[int(initial)],
@@ -77,7 +85,6 @@ def processMachine(machine):
         }
     }
     print(json.dumps(data))
-
 
 
 def parser():
