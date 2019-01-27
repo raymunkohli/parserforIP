@@ -21,34 +21,73 @@ def deconstruct_tree(tree, outputdirectory):
     networks = []
 
     for child in tree.getroot():
-        if child.tag == "machine":
+        if child.get("type") == "state-machine":
             if child.get(ESLI+"type") == "cw:Link":
                 a = 1 + 1
             else:
-                machines.append(process_machine(child, outputdirectory, machines))
+                i = 0
+                for x in machines:
+                    if child.get("name") == machines[i]:
+                        i = i + 1
+                print("machine :" + child.get("name"))
+                machines.append(process_machine(child, outputdirectory, i))
+        elif child.get("type") == "network-machine":
+            print("network M :")
+            process_networks(child, outputdirectory, machines, networks)
         elif child.tag == "network":
-            net = process_networks(child, outputdirectory)
-            a = 1+1
+            print("network N :")
+            process_networks(child, outputdirectory, machines, networks)
+        else:
+            sys.exit("unsupported type on:" + child.tag)
 
 
-def process_networks(network, outputdirectory):
-    machine = []
+def process_networks(network, outputdirectory, machines, networks):
+    networks.append(network)
+    localmachine = []
     for child in network:
-        if child.tag == "machine":
-            machine.append(process_machine(child,outputdirectory))
-        if child.tag == "network":
-            process_networks(child,outputdirectory)
+        if child.get("type") == "state-machine":
+            i = 0
+            for x in machines:
+                if child.get("name") == machines[i]:
+                    i = i + 1
+            machines.append(process_machine(child, outputdirectory, i))
+            #localmachine.append()
+        if child.get("type") == "network-machine":
+            i = 0
+            for x in networks:
+                if child.get("name") == networks[i]:
+                    i = i + 1
+            machines.append(process_represents(child, outputdirectory, i, machines))
+    return 123
 
-    return network, machine
+def process_represents(machine, outputdirectory, suffix, machines):
+    suffix = str(suffix)
+    property = {}
+    for child in machine:
+        if child.tag == "state" or child.tag == "transition":
+            sys.exit("Error, network-machine must have no states at" + machine.get("name"))
+        else:
+            prop = {
+                "type": child.get("type"),
+                "required": True,
+            }
+            property[child.get("name")] = prop
+
+    data = {
+        "name": machine.get("name"),
+        "type": "network-machine",
+        "properties": property
+    }
+    file = open(outputdirectory+"/machines/"+machine.get("name")+"_"+suffix+".json", 'w+')
+    file.write(str(json.dumps(data)))
 
 
-def process_machine(machine, outputdirectory, machines):
+def process_machine(machine, outputdirectory, suffix):
+    suffix = str(suffix)
     states = []
     transitions = {}
     properties = {}
     # get states
-    initial = machine.get("initial").split(".")[-1]
-    #  get initial state
     for child in machine:
         #check if child is a state
         if child.tag == "state":
@@ -60,47 +99,40 @@ def process_machine(machine, outputdirectory, machines):
             #check if transition is probabilistic  or not
             if child.get(ESLI+"type") == "cw:probabilistic":
                 transition = {
-                    toid: [
-                        {
+                    toid: [{
                             "type" : "probabilistic",
                             "distribution": child.get("distribution"),
                             "parameter": child.get("parameter")
-                            }
-                        ]
-                    }
+                            }]}
             else:
                 transition = {
-                    toid: [
-                        {
+                    toid: [{
                             "type": "deterministic",
                             "parameter": child.get("parameter")
-                        }
-                    ]
-                }
-
+                        }]}
             if fromid in transitions:
                 a = transitions[fromid]
                 transitions[fromid].append(transition)
             else:
                 transitions[fromid] = []
                 transitions[fromid].append(transition)
-        if child.tag =="property":
+        if child.tag == "property":
             prop = {
-                "type" : child.get("type"),
+                "type": child.get("type"),
                 "required": True,
             }
             properties[child.get("name")] = prop
     data = {
-        "name": machine.get("name"),
-        "type": machine.get("type"),
+        "name": machine.get("name")+"_"+suffix,
+        "type": "state-machine",
         "properties": properties,
         "structure": {
             "states": states,
-            "initial": states[int(initial)],
+            "initial": int(machine.get("initial").split(".")[-1]),
             "transitions": transitions
         }
     }
-    file = open(outputdirectory+"/machines/"+machine.get("name")+".json", 'w+')
+    file = open(outputdirectory+"/machines/"+machine.get("name")+"_"+suffix+".json", 'w+')
     file.write(str(json.dumps(data)))
 
 

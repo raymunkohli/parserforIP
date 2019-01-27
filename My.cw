@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
 <cw:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cw="http://www.example.org/cw" name="length">
-  <machine xsi:type="cw:Link" target="//@network.1/@represented" source="//@network.0/@represented">
+  <machine initial="//@machine.0/@state.0" name="Battery" type="state-machine">
+    <state name="ok"/>
+    <state name="fail"/>
+    <transition xsi:type="cw:probabilistic" to="//@machine.0/@state.1" from="//@machine.0/@state.0" parameter="13.3" distribution="exponential"/>
+    <transition xsi:type="cw:probabilistic" to="//@machine.0/@state.0" from="//@machine.0/@state.1" parameter="333.0" distribution="exponential"/>
+    <property name="Capasity" value="103" type="Number"/>
+  </machine>
+  <machine xsi:type="cw:Link" name="sub123-sub101-0" type="state-machine" target="//@network.1/@represented" source="//@network.0/@represented">
     <property name="kv" value="state-machine" type="string"/>
     <property name="x" type="number"/>
     <property name="max" type="number"/>
@@ -8,40 +15,25 @@
     <property name="connected" type="boolean"/>
     <property name="length" type="number"/>
   </machine>
-  <machine initial="//@machine.1/@state.0" name="Battery" type="state-machine">
-    <state name="ok"/>
-    <state name="fail"/>
-    <transition xsi:type="cw:probabilistic" to="//@machine.1/@state.1" from="//@machine.1/@state.0" parameter="0.1" distribution="exponential"/>
-    <transition xsi:type="cw:probabilistic" to="//@machine.1/@state.0" from="//@machine.1/@state.1" parameter="20.0" distribution="exponential"/>
-    <transition xsi:type="cw:deterministic" to="//@machine.1/@state.0" from="//@machine.1/@state.1" parameter="33.0"/>
-    <property name="123" value="123" type="123"/>
-    <property name="433" value="443" type="433"/>
-  </machine>
   <network>
-    <machine name="mamamia" parent="//@network.0"/>
-    <represented initial="//@network.0/@represented/@state.0" name="123">
+    <represented initial="//@network.0/@represented/@state.0" name="sub123" type="state-machine">
       <state name="ok"/>
       <state name="fail"/>
       <transition xsi:type="cw:probabilistic" to="//@network.0/@represented/@state.0" from="//@network.0/@represented/@state.1" parameter="0.1" distribution="exponential"/>
       <transition xsi:type="cw:probabilistic" to="//@network.0/@represented/@state.1" from="//@network.0/@represented/@state.0" parameter="20.0" distribution="exponential"/>
-      <property name="Load"/>
+      <property name="Load" value="123" type="Number"/>
     </represented>
     <network super="//@network.0">
-      <represented name="123123" type="network-machine" parent="//@network.0"/>
+      <represented name="New Network" type="network-machine" parent="//@network.0"/>
     </network>
   </network>
   <network>
-    <represented initial="//@network.1/@represented/@state.0" name="333">
+    <represented initial="//@network.1/@represented/@state.0" name="sub101" type="state-machine">
       <state name="ok"/>
       <state name="fail"/>
       <transition xsi:type="cw:probabilistic" to="//@network.1/@represented/@state.0" from="//@network.1/@represented/@state.1" parameter="0.1" distribution="exponential"/>
       <transition xsi:type="cw:probabilistic" to="//@network.1/@represented/@state.1" from="//@network.1/@represented/@state.0" parameter="20.0" distribution="exponential"/>
-      <property name="Load" value="123" type="Number"/>
+      <property name="Load" value="333" type="Number"/>
     </represented>
-    <network super="//@network.1">
-      <represented name="Relay" parent="//@network.1">
-        <property/>
-      </represented>
-    </network>
   </network>
 </cw:Model>
