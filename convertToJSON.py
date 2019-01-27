@@ -1,4 +1,4 @@
-import sys, getopt,json
+import sys, getopt,json,os
 import xml.etree.ElementTree as ET
 #https://docs.python.org/3/library/xml.etree.elementtree.html
 from optparse import *
@@ -9,21 +9,40 @@ def main():
     args = parser()
     xmlfile = args[0]
     outputdirectory = args[1]
-    deconstruct_tree(ET.parse(xmlfile))
+    if not os.path.exists(outputdirectory+"/machines/"):
+        os.mkdir(outputdirectory+"/machines/")
+    if not os.path.exists(outputdirectory+"/network/"):
+        os.mkdir(outputdirectory + "/network/")
+    deconstruct_tree(ET.parse(xmlfile),outputdirectory)
 
 
-def deconstruct_tree(tree):
+def deconstruct_tree(tree, outputdirectory):
+    machines = []
+    networks = []
+
     for child in tree.getroot():
         if child.tag == "machine":
             if child.get(ESLI+"type") == "cw:Link":
-                a = 1+ 1
+                a = 1 + 1
             else:
-                processMachine(child)
+                machines.append(process_machine(child, outputdirectory, machines))
         elif child.tag == "network":
+            net = process_networks(child, outputdirectory)
             a = 1+1
 
 
-def processMachine(machine):
+def process_networks(network, outputdirectory):
+    machine = []
+    for child in network:
+        if child.tag == "machine":
+            machine.append(process_machine(child,outputdirectory))
+        if child.tag == "network":
+            process_networks(child,outputdirectory)
+
+    return network, machine
+
+
+def process_machine(machine, outputdirectory, machines):
     states = []
     transitions = {}
     properties = {}
@@ -71,9 +90,6 @@ def processMachine(machine):
                 "required": True,
             }
             properties[child.get("name")] = prop
-
-
-    # get initial state
     data = {
         "name": machine.get("name"),
         "type": machine.get("type"),
@@ -84,7 +100,8 @@ def processMachine(machine):
             "transitions": transitions
         }
     }
-    print(json.dumps(data))
+    file = open(outputdirectory+"/machines/"+machine.get("name")+".json", 'w+')
+    file.write(str(json.dumps(data)))
 
 
 def parser():
