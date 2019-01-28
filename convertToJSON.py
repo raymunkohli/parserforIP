@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 from optparse import *
 ESLI = "{http://www.w3.org/2001/XMLSchema-instance}"
 
+
 def main():
     # match arguments to variables
     args = parser()
@@ -13,54 +14,85 @@ def main():
         os.mkdir(outputdirectory+"/machines/")
     if not os.path.exists(outputdirectory+"/network/"):
         os.mkdir(outputdirectory + "/network/")
-    deconstruct_tree(ET.parse(xmlfile),outputdirectory)
+    deconstruct_tree(ET.parse(xmlfile), outputdirectory)
 
+def calculate_suffix(name,array):
+    i = 0
+    count = 0
+    for x in  array:
+        if name+'_'+str(count) == array[i]:
+            count +=1
+        i += 1
+    return count
 
 def deconstruct_tree(tree, outputdirectory):
     machines = []
     networks = []
+    file = open(outputdirectory + '/' + tree.getroot().get("name")+".json", 'w+')
 
     for child in tree.getroot():
         if child.get("type") == "state-machine":
             if child.get(ESLI+"type") == "cw:Link":
                 a = 1 + 1
             else:
-                i = 0
-                for x in machines:
-                    if child.get("name") == machines[i]:
-                        i = i + 1
-                print("machine :" + child.get("name"))
-                machines.append(process_machine(child, outputdirectory, i))
-        elif child.get("type") == "network-machine":
-            print("network M :")
-            process_networks(child, outputdirectory, machines, networks)
+                u = process_machine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines)
+                print(machines)
+                #instance the machine ** to do
         elif child.tag == "network":
-            print("network N :")
             process_networks(child, outputdirectory, machines, networks)
         else:
             sys.exit("unsupported type on:" + child.tag)
+    m = []
+    for mach in machines:
+        d = {
+            "include": "machines/"+str(mach)
+        }
+        m.append(d)
+
+    n = []
+    for net in networks:
+        d = {
+            "include": "networks/"+str(net)
+        }
+        n.append(d)
+
+    info = {
+        "description": "Substations",
+        "machines": m,
+        "networks": n
+    }
+    file.write(json.dumps(info))
 
 
 def process_networks(network, outputdirectory, machines, networks):
-    networks.append(network)
     localmachine = []
+    a = "null"
     for child in network:
         if child.get("type") == "state-machine":
-            i = 0
-            for x in machines:
-                if child.get("name") == machines[i]:
-                    i = i + 1
-            machines.append(process_machine(child, outputdirectory, i))
-            #localmachine.append()
-        if child.get("type") == "network-machine":
-            i = 0
-            for x in networks:
-                if child.get("name") == networks[i]:
-                    i = i + 1
-            machines.append(process_represents(child, outputdirectory, i, machines))
-    return 123
+            m = process_machine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines)
+            a = m[2]
+            if child.tag != 'represented':
+                localmachine.append(m[0])
+            else:
+                abc=1
 
-def process_represents(machine, outputdirectory, suffix, machines):
+        if child.get("type") == "network-machine":
+            a = process_netmachine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines)
+            machines.append(a)
+        elif child.tag == "network":
+            process_networks(child, outputdirectory, machines, networks)
+
+    net = {
+        "name": a,
+        "machines": localmachine
+    }
+
+    file = open(outputdirectory+"/network/"+a+".json", 'w+')
+    file.write(str(json.dumps(net)))
+
+
+
+def process_netmachine(machine, outputdirectory, suffix, machines):
     suffix = str(suffix)
     property = {}
     for child in machine:
@@ -74,19 +106,21 @@ def process_represents(machine, outputdirectory, suffix, machines):
             property[child.get("name")] = prop
 
     data = {
-        "name": machine.get("name"),
+        "name": machine.get("name")+'_'+suffix,
         "type": "network-machine",
         "properties": property
     }
     file = open(outputdirectory+"/machines/"+machine.get("name")+"_"+suffix+".json", 'w+')
     file.write(str(json.dumps(data)))
+    return machine.get("name")+'_'+suffix
 
 
-def process_machine(machine, outputdirectory, suffix):
+def process_machine(machine, outputdirectory, suffix, machines):
     suffix = str(suffix)
     states = []
     transitions = {}
     properties = {}
+    init = {}
     # get states
     for child in machine:
         #check if child is a state
@@ -118,10 +152,14 @@ def process_machine(machine, outputdirectory, suffix):
                 transitions[fromid].append(transition)
         if child.tag == "property":
             prop = {
+                "name": child.get("name"),
                 "type": child.get("type"),
                 "required": True,
             }
+            init[child.get("name")] = child.get("value")
             properties[child.get("name")] = prop
+
+
     data = {
         "name": machine.get("name")+"_"+suffix,
         "type": "state-machine",
@@ -132,8 +170,14 @@ def process_machine(machine, outputdirectory, suffix):
             "transitions": transitions
         }
     }
+    names = {
+        "name":machine.get("name"),
+        "machine":machine.get("name")+"_"+suffix
+    }
     file = open(outputdirectory+"/machines/"+machine.get("name")+"_"+suffix+".json", 'w+')
     file.write(str(json.dumps(data)))
+    machines.append(machine.get("name")+"_"+suffix)
+    return names, init, machine.get("name")+"_"+suffix
 
 
 def parser():
