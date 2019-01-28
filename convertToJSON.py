@@ -36,7 +36,6 @@ def deconstruct_tree(tree, outputdirectory):
                 a = 1 + 1
             else:
                 u = process_machine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines)
-                print(machines)
                 #instance the machine ** to do
         elif child.tag == "network":
             process_networks(child, outputdirectory, machines, networks)
@@ -61,6 +60,7 @@ def deconstruct_tree(tree, outputdirectory):
         "machines": m,
         "networks": n
     }
+    print(n)
     file.write(json.dumps(info))
 
 
@@ -74,7 +74,7 @@ def process_networks(network, outputdirectory, machines, networks):
             if child.tag != 'represented':
                 localmachine.append(m[0])
             else:
-                abc=1
+                abc = 1
 
         if child.get("type") == "network-machine":
             a = process_netmachine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines)
@@ -88,6 +88,7 @@ def process_networks(network, outputdirectory, machines, networks):
     }
 
     file = open(outputdirectory+"/network/"+a+".json", 'w+')
+    networks.append("network/"+a+".json")
     file.write(str(json.dumps(net)))
 
 
