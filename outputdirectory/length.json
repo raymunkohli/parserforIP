@@ -1,16 +1,1 @@
-{"description": 
-    "Substations", 
-    "machines": [
-        {"include": "machines/Batteryy_0"}, 
-        {"include": "machines/Battery_0"}, 
-        {"include": "machines/sub123_0"}, 
-        {"include": "machines/Battery_1"}, 
-        {"include": "machines/New Network_0"}, 
-        {"include": "machines/Battery_2"}, 
-        {"include": "machines/sub101_0"}, 
-        {"include": "machines/sub101_1"}], 
-    "networks": [
-        {"include": "networks/network/New Network_0.json"}, 
-        {"include": "networks/network/sub123_0.json"}, 
-        {"include": "networks/network/sub101_0.json"}, 
-        {"include": "networks/network/sub101_1.json"}]}
+{"description": "All_Networks", "machines": [{"include": "machines/Batteryy_0"}, {"include": "machines/Battery_0"}, {"include": "machines/sub123_0"}, {"include": "machines/Battery_1"}, {"include": "machines/New Network_0"}, {"include": "machines/Battery_2"}, {"include": "machines/sub101_0"}, {"include": "machines/sub101_1"}], "networks": [{"include": "networks/network/New Network_0.json"}, {"include": "networks/network/sub123_0.json"}, {"include": "networks/network/sub101_0.json"}, {"include": "networks/network/sub101_1.json"}, {"name": "baseline", "machines": [{"name": "Substations"}]}, {}, {}, {}]}

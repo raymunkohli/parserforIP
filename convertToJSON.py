@@ -28,17 +28,18 @@ def calculate_suffix(name,array):
 def deconstruct_tree(tree, outputdirectory):
     machines = []
     networks = []
+    notnestednetworks = []
+    notnestedmachines = []
     file = open(outputdirectory + '/' + tree.getroot().get("name")+".json", 'w+')
-
     for child in tree.getroot():
         if child.get("type") == "state-machine":
             if child.get(ESLI+"type") == "cw:Link":
                 a = 1 + 1
             else:
-                u = process_machine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines)
+                u = process_machine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines, notnestednetworks, notnestedmachines)
                 #instance the machine ** to do
         elif child.tag == "network":
-            process_networks(child, outputdirectory, machines, networks)
+            process_networks(child, outputdirectory, machines, networks,False, notnestednetworks, notnestedmachines)
         else:
             sys.exit("unsupported type on:" + child.tag)
     m = []
@@ -54,9 +55,20 @@ def deconstruct_tree(tree, outputdirectory):
             "include": "networks/"+str(net)
         }
         n.append(d)
+    n.append({
+        "name": "baseline",
+        "machines": [{
+            "name": "Substations"
+        }]
+    })
+    thenetworks = []
+    for nnest in notnestednetworks:
+        d = {
 
+        }
+        n.append(d)
     info = {
-        "description": "Substations",
+        "description": "All_Networks",
         "machines": m,
         "networks": n
     }
@@ -64,24 +76,26 @@ def deconstruct_tree(tree, outputdirectory):
     file.write(json.dumps(info))
 
 
-def process_networks(network, outputdirectory, machines, networks):
+def process_networks(network, outputdirectory, machines, networks, isnested, nnestednetworks, nnmachines):
     localmachine = []
     a = "null"
     for child in network:
         if child.get("type") == "state-machine":
-            m = process_machine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines)
+            m = process_machine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines,nnestednetworks, nnmachines)
             a = m[2]
             if child.tag != 'represented':
                 localmachine.append(m[0])
-            else:
-                abc = 1
 
         if child.get("type") == "network-machine":
-            a = process_netmachine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines)
+            a = process_netmachine(child, outputdirectory, calculate_suffix(child.get("name"), machines), machines)
             machines.append(a)
         elif child.tag == "network":
-            process_networks(child, outputdirectory, machines, networks)
-
+            process_networks(child, outputdirectory, machines, networks, True, nnestednetworks, nnmachines)
+    if not isnested:
+        nnestednetworks.append({
+            "name": m[0].get("name"),
+            "machine": m[2]
+        })
     net = {
         "name": a,
         "machines": localmachine
@@ -90,7 +104,6 @@ def process_networks(network, outputdirectory, machines, networks):
     file = open(outputdirectory+"/network/"+a+".json", 'w+')
     networks.append("network/"+a+".json")
     file.write(str(json.dumps(net)))
-
 
 
 def process_netmachine(machine, outputdirectory, suffix, machines):
@@ -116,7 +129,7 @@ def process_netmachine(machine, outputdirectory, suffix, machines):
     return machine.get("name")+'_'+suffix
 
 
-def process_machine(machine, outputdirectory, suffix, machines):
+def process_machine(machine, outputdirectory, suffix, machines,nnestednetworks, nnmachines):
     suffix = str(suffix)
     states = []
     transitions = {}
@@ -134,11 +147,11 @@ def process_machine(machine, outputdirectory, suffix, machines):
             #check if transition is probabilistic  or not
             if child.get(ESLI+"type") == "cw:probabilistic":
                 transition = {
-                    toid: [{
-                            "type" : "probabilistic",
+                    toid: {
+                            "type": "probabilistic",
                             "distribution": child.get("distribution"),
                             "parameter": child.get("parameter")
-                            }]}
+                            }}
             else:
                 transition = {
                     toid: [{
