@@ -61,6 +61,7 @@ def deconstruct_tree(tree, outputdirectory):
             "name": "Substations"
         }]
     })
+    print(notnestednetworks)
     thenetworks = []
     for nnest in notnestednetworks:
         d = {
@@ -72,7 +73,6 @@ def deconstruct_tree(tree, outputdirectory):
         "machines": m,
         "networks": n
     }
-    print(n)
     file.write(json.dumps(info))
 
 
@@ -81,10 +81,14 @@ def process_networks(network, outputdirectory, machines, networks, isnested, nne
     a = "null"
     for child in network:
         if child.get("type") == "state-machine":
-            m = process_machine(child, outputdirectory, calculate_suffix(child.get("name"),machines), machines,nnestednetworks, nnmachines)
+            m = process_machine(child, outputdirectory, calculate_suffix(child.get("name"), machines), machines,nnestednetworks, nnmachines)
             a = m[2]
             if child.tag != 'represented':
-                localmachine.append(m[0])
+                localmachine.append({
+                    "name:": m[3],
+                    "machine": m[2],
+                    "properties": m[1]
+                })
 
         if child.get("type") == "network-machine":
             a = process_netmachine(child, outputdirectory, calculate_suffix(child.get("name"), machines), machines)
@@ -94,11 +98,12 @@ def process_networks(network, outputdirectory, machines, networks, isnested, nne
     if not isnested:
         nnestednetworks.append({
             "name": m[0].get("name"),
-            "machine": m[2]
+            "machine": m[2],
         })
     net = {
         "name": a,
-        "machines": localmachine
+        "machines": localmachine,
+        "properties": m[1]
     }
 
     file = open(outputdirectory+"/network/"+a+".json", 'w+')
@@ -191,7 +196,7 @@ def process_machine(machine, outputdirectory, suffix, machines,nnestednetworks, 
     file = open(outputdirectory+"/machines/"+machine.get("name")+"_"+suffix+".json", 'w+')
     file.write(str(json.dumps(data)))
     machines.append(machine.get("name")+"_"+suffix)
-    return names, init, machine.get("name")+"_"+suffix
+    return names, init, machine.get("name")+"_"+suffix, machine.get("name")
 
 
 def parser():

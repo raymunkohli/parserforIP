@@ -1,1 +1,15 @@
-{"name": "sub101_0", "machines": [{"name": "Battery", "machine": "Battery_2"}]}
+{
+    "name": "sub101_0",
+    "machines": [
+      {
+        "name:": "Battery",
+        "machine": "Battery_2",
+        "properties": {
+          "Capisity": "sub 101"
+        }
+      }
+    ],
+    "properties": {
+      "Load": "333"
+    }
+  }

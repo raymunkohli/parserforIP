@@ -7,7 +7,7 @@
     <transition xsi:type="cw:probabilistic" to="//@machine.0/@state.1" from="//@machine.0/@state.0" parameter="13.3" distribution="exponential"/>
     <transition xsi:type="cw:probabilistic" to="//@machine.0/@state.0" from="//@machine.0/@state.1" parameter="333.0" distribution="exponential"/>
     <transition xsi:type="cw:probabilistic" to="//@machine.0/@state.2" from="//@machine.0/@state.0"/>
-    <property name="Capisity" value="103" type="Number"/>
+    <property name="Capisity" value="none" type="Number"/>
   </machine>
   <machine xsi:type="cw:Link" name="sub123-sub101-0" type="state-machine" target="//@network.1/@represented" source="//@network.0/@represented">
     <property name="kv" value="state-machine" type="string"/>
@@ -23,7 +23,7 @@
       <state name="fail"/>
       <transition xsi:type="cw:probabilistic" to="//@network.0/@machine.0/@state.1" from="//@network.0/@machine.0/@state.0" parameter="13.3" distribution="exponential"/>
       <transition xsi:type="cw:probabilistic" to="//@network.0/@machine.0/@state.0" from="//@network.0/@machine.0/@state.1" parameter="333.0" distribution="exponential"/>
-      <property name="Capisity" value="103" type="Number"/>
+      <property name="Capisity" value="sub 123" type="Number"/>
     </machine>
     <represented initial="//@network.0/@represented/@state.0" name="sub123" type="state-machine">
       <state name="ok"/>
@@ -38,7 +38,7 @@
         <state name="fail"/>
         <transition xsi:type="cw:probabilistic" to="//@network.0/@network.0/@machine.0/@state.1" from="//@network.0/@network.0/@machine.0/@state.0" parameter="13.3" distribution="exponential"/>
         <transition xsi:type="cw:probabilistic" to="//@network.0/@network.0/@machine.0/@state.0" from="//@network.0/@network.0/@machine.0/@state.1" parameter="333.0" distribution="exponential"/>
-        <property name="Capisity" value="103" type="Number"/>
+        <property name="Capisity" value="new network" type="Number"/>
       </machine>
       <represented name="New Network" type="network-machine" parent="//@network.0"/>
     </network>
@@ -49,7 +49,7 @@
       <state name="fail"/>
       <transition xsi:type="cw:probabilistic" to="//@network.1/@machine.0/@state.1" from="//@network.1/@machine.0/@state.0" parameter="13.3" distribution="exponential"/>
       <transition xsi:type="cw:probabilistic" to="//@network.1/@machine.0/@state.0" from="//@network.1/@machine.0/@state.1" parameter="333.0" distribution="exponential"/>
-      <property name="Capisity" value="103" type="Number"/>
+      <property name="Capisity" value="sub 101" type="Number"/>
     </machine>
     <represented initial="//@network.1/@represented/@state.0" name="sub101" type="state-machine">
       <state name="ok"/>
