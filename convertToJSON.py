@@ -89,7 +89,6 @@ def process_networks(network, outputdirectory, machines, networks, isnested, nne
                     "machine": m[2],
                     "properties": m[1]
                 })
-
         if child.get("type") == "network-machine":
             a = process_netmachine(child, outputdirectory, calculate_suffix(child.get("name"), machines), machines)
             machines.append(a)
