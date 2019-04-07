@@ -1,0 +1,62 @@
+{
+  "name": "asdffff",
+  "machines": [
+    {
+      "name": "aaa",
+      "machine": "aaa",
+      "properties": {
+        "123": {
+          "value": "444"
+        },
+        "aaa": {
+          "value": "aaaaa"
+        },
+        "hjkl": {
+          "type": "probabilistic",
+          "distribution": "aaaa",
+          "parameter": "bbbb"
+        },
+        "asdw": {
+          "type": "probabilistic",
+          "distribution": "nm",
+          "parameter": "buhnjmk,l"
+        }
+      }
+    },
+    {
+      "name": "aaa",
+      "machine": "aaa",
+      "properties": {
+        "123": {
+          "value": null
+        },
+        "aaa": {
+          "value": null
+        }
+      }
+    },
+    {
+      "name": "link nested",
+      "machine": "link",
+      "properties": {
+        "aaa": {
+          "value": null
+        },
+        "to": "aaa",
+        "from": "sadwfawdd"
+      }
+    },
+    {
+      "name": "sadwfawdd",
+      "machine": "sadwfawdd",
+      "properties": {
+        "hjk": {
+          "value": "aaaaa"
+        },
+        "ghjk": {
+          "value": "bbbbbb"
+        }
+      }
+    }
+  ]
+}

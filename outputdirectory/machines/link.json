@@ -1,0 +1,29 @@
+{
+  "name": "link",
+  "type": "state-machine",
+  "properties": {
+    "aaa": {
+      "required": "true",
+      "type": "sssss",
+      "properties": {}
+    }
+  },
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": [
+        {
+          "fail": {
+            "type": "property",
+            "property": "sdae"
+          }
+        }
+      ],
+      "fail": []
+    }
+  }
+}

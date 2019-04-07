@@ -1,0 +1,12 @@
+{
+  "name": "asdffff",
+  "type": "network-machine",
+  "properties": {
+    "ghj": {
+      "required": "false",
+      "type": null,
+      "properties": {}
+    }
+  },
+  "structure": "asdffff"
+}

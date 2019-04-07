@@ -1,0 +1,21 @@
+{
+  "name": "sadwfawdd",
+  "type": "network-machine",
+  "properties": [
+    {
+      "hjk": {
+        "required": "false",
+        "type": null,
+        "properties": {
+          "yui": "21345"
+        }
+      },
+      "ghjk": {
+        "required": "false",
+        "type": null,
+        "properties": {}
+      }
+    }
+  ],
+  "structure": "sadwfawdd"
+}

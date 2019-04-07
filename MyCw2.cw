@@ -5,20 +5,14 @@
     <state name="start"/>
     <state name="ok"/>
     <state name="fail"/>
-    <transition xsi:type="cw:probabilistic" From="//@machine_representation.0/@state.0" To="//@machine_representation.0/@state.1" distribution="dd"/>
-    <transition xsi:type="cw:deterministic" From="//@machine_representation.0/@state.1" To="//@machine_representation.0/@state.2"/>
+    <transition xsi:type="cw:probabilistic" From="//@machine_representation.0/@state.0" To="//@machine_representation.0/@state.1" distribution="dd" parameter="444"/>
+    <transition xsi:type="cw:deterministic" From="//@machine_representation.0/@state.1" To="//@machine_representation.0/@state.2" parameter="333"/>
     <transition xsi:type="cw:Property_Tr" From="//@machine_representation.0/@state.0" To="//@machine_representation.0/@state.2" name="456"/>
     <property_r_c>
-      <property_r_abstract xsi:type="cw:Property_R" name="333"/>
+      <property_r_abstract xsi:type="cw:Property_R" name="333" type="asdf"/>
     </property_r_c>
   </machine_representation>
   <machine_representation name="bbb" machine_instance="//@machine_instance.0">
-    <property_r_c/>
-  </machine_representation>
-  <machine_representation name="ddd">
-    <property_r_c/>
-  </machine_representation>
-  <machine_representation name="sss">
     <property_r_c/>
   </machine_representation>
   <network xsi:type="cw:Network_Representation" name="Control Center">
@@ -45,8 +39,8 @@
   <network xsi:type="cw:Network_Representation" name=",,"/>
   <network xsi:type="cw:Network_Rep_Instance" name="123">
     <machine_instance machine_representation="//@machine_representation.0" name="Battery">
-      <property_i_abstract xsi:type="cw:Property_I" property_r="//@machine_representation.0/@property_r_c/@property_r_abstract.0"/>
-      <property_i_abstract xsi:type="cw:none" property_tr="//@machine_representation.0/@transition.2" name="456"/>
+      <property_i_abstract xsi:type="cw:Property_I" value="111" property_r="//@machine_representation.0/@property_r_c/@property_r_abstract.0"/>
+      <property_i_abstract xsi:type="cw:probabilistic_p" property_tr="//@machine_representation.0/@transition.2" distribution="333" parameter="aaa"/>
     </machine_instance>
   </network>
   <network xsi:type="cw:Network_Rep_Instance" name="ggg"/>

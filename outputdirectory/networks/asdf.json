@@ -1,0 +1,48 @@
+{
+  "name": "asdf",
+  "machines": [
+    {
+      "name": "aaa",
+      "machine": "aaa",
+      "properties": {
+        "123": {
+          "value": "444"
+        },
+        "aaa": {
+          "value": "aaaaa"
+        },
+        "hjkl": {
+          "type": "probabilistic",
+          "distribution": "aaaa",
+          "parameter": "bbbb"
+        },
+        "asdw": {
+          "type": "probabilistic",
+          "distribution": "nm",
+          "parameter": "buhnjmk,l"
+        }
+      }
+    },
+    {
+      "name": "aaa",
+      "machine": "aaa",
+      "properties": {
+        "123": {
+          "value": null
+        },
+        "aaa": {
+          "value": null
+        }
+      }
+    },
+    {
+      "name": "link",
+      "machine": "link",
+      "properties": {
+        "aaa": {
+          "value": null
+        }
+      }
+    }
+  ]
+}
