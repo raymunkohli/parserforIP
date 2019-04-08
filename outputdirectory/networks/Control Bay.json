@@ -1,0 +1,40 @@
+{
+  "name": "Control Bay",
+  "machines": [
+    {
+      "name": "Engineering Workstation",
+      "machine": "Workstation",
+      "properties": {}
+    },
+    {
+      "name": "HMI",
+      "machine": "Workstation",
+      "properties": {}
+    },
+    {
+      "name": "Server 1",
+      "machine": "Server",
+      "properties": {}
+    },
+    {
+      "name": "Server 2",
+      "machine": "Server",
+      "properties": {}
+    },
+    {
+      "name": "Router",
+      "machine": "router",
+      "properties": {}
+    },
+    {
+      "name": "Firewall",
+      "machine": "Firewall",
+      "properties": {}
+    },
+    {
+      "name": "Switch",
+      "machine": "Switch",
+      "properties": {}
+    }
+  ]
+}

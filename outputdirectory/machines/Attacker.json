@@ -1,0 +1,124 @@
+{
+  "name": "Attacker",
+  "type": "state-machine",
+  "properties": {
+    "frequency": {
+      "required": true,
+      "type": "Activation"
+    }
+  },
+  "structure": {
+    "states": [
+      "idle",
+      "firewallRule1",
+      "attack",
+      "firewallRule2",
+      "firewallRule3",
+      "firewallRule4",
+      "firewallRule5",
+      "success",
+      "detected",
+      "modifyThreshold"
+    ],
+    "initial": "idle",
+    "transitions": {
+      "idle": {
+        "attack": [
+          {
+            "type": "property",
+            "property": "frequency"
+          }
+        ]
+      },
+      "firewallRule1": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "attack": {
+        "firewallRule5": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 8736.0,
+            "comment": ""
+          }
+        ]
+      },
+      "firewallRule2": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "firewallRule3": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "firewallRule4": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "firewallRule5": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "success": {
+        "modifyThreshold": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "detected": {
+        "idle": [
+          {
+            "type": "deterministic",
+            "parameter": 3.170979198376e-08,
+            "comment": null
+          }
+        ]
+      },
+      "modifyThreshold": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 2920.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}

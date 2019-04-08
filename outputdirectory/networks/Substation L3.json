@@ -1,0 +1,25 @@
+{
+  "name": "Substation L3",
+  "machines": [
+    {
+      "name": "Load Bay",
+      "machine": "Load Bay",
+      "properties": {
+        "power": 400.0,
+        "connected": true
+      }
+    },
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D2-L3"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}

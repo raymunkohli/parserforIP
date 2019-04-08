@@ -1,0 +1,33 @@
+{
+  "name": "Generator",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1691,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "deterministic",
+            "parameter": 0.00373287671233,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}

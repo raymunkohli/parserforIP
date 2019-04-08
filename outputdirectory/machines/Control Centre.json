@@ -1,0 +1,14 @@
+{
+  "name": "Control Centre",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": []
+    }
+  }
+}

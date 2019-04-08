@@ -1,0 +1,33 @@
+{
+  "name": "Breaker",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "deterministic",
+            "parameter": 0.00086,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}

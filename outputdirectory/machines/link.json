@@ -1,11 +1,62 @@
 {
-  "name": "link",
+  "name": "Link",
   "type": "state-machine",
   "properties": {
-    "aaa": {
-      "required": "true",
-      "type": "sssss",
+    "kV": {
+      "required": true,
+      "type": "String",
       "properties": {}
+    },
+    "x": {
+      "required": true,
+      "type": "Number",
+      "properties": {}
+    },
+    "max": {
+      "required": true,
+      "type": "Number",
+      "properties": {}
+    },
+    "overloaded": {
+      "required": true,
+      "type": "Boolean",
+      "properties": {}
+    },
+    "connected": {
+      "required": true,
+      "type": "Boolean",
+      "properties": {}
+    },
+    "length": {
+      "required": true,
+      "type": "Number",
+      "properties": {}
+    },
+    "to": {
+      "required": true,
+      "type": "Lookup",
+      "properties": {
+        "list": "machines",
+        "filter": "name === 'Substation'",
+        "value": "name"
+      }
+    },
+    "from": {
+      "required": true,
+      "type": "Lookup",
+      "properties": {
+        "list": "machines",
+        "filter": "name === 'Substation'",
+        "value": "name"
+      }
+    },
+    "failure": {
+      "required": true,
+      "type": "Activation"
+    },
+    "recovery": {
+      "required": true,
+      "type": "Activation"
     }
   },
   "structure": {
@@ -15,15 +66,22 @@
     ],
     "initial": "ok",
     "transitions": {
-      "ok": [
-        {
-          "fail": {
+      "ok": {
+        "fail": [
+          {
             "type": "property",
-            "property": "sdae"
+            "property": "failure"
           }
-        }
-      ],
-      "fail": []
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "property",
+            "property": "recovery"
+          }
+        ]
+      }
     }
   }
 }

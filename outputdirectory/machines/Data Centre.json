@@ -1,0 +1,34 @@
+{
+  "name": "Data Centre",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "fail",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 1e-08,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}

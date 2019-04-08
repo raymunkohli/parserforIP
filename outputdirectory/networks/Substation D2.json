@@ -1,0 +1,31 @@
+{
+  "name": "Substation D2",
+  "machines": [
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G1-D2"
+      }
+    },
+    {
+      "name": "Line Bay 2",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G2-D2"
+      }
+    },
+    {
+      "name": "Line Bay 3",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D2-L3"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}

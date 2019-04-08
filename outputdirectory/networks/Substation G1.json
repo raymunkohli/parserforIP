@@ -1,0 +1,32 @@
+{
+  "name": "Substation G1",
+  "machines": [
+    {
+      "name": "Generator Bay",
+      "machine": "Generator Bay",
+      "properties": {
+        "Capacity": 1000.0,
+        "Connected": true
+      }
+    },
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G1-D1"
+      }
+    },
+    {
+      "name": "Line Bay 2",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G1-D2"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}

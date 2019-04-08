@@ -1,0 +1,8 @@
+{
+  "name": "Substation L5",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation L5"
+  }
+}

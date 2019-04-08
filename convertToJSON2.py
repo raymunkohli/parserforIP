@@ -24,12 +24,21 @@ def parser():
     return args
 
 def model(filet, folder):
+    #model gen
     network = []
+    network_def = []
     network_instance = []
+    
+    network_rep = []
     group = []
+    groupnets = []
     machine_instance = []
+    machines_ordered = {}
+    missing = []
     machine_representation = []
     links = []
+    pos = 0
+    number = 0 
     #create initial folder
 
     file = open(folder + '/' + filet.getroot().get("name")+".json", 'w+')
@@ -39,77 +48,99 @@ def model(filet, folder):
         if child.tag == "machine_representation":
             a = createMachineRep(child,folder)
             machine_representation.append(a)
-
     for child in filet.getroot():
         if child.tag == "network":
             if child.get(ESLI+"type") == "cw:Network_Representation":
                 a = createNetworkRep(child,network,machine_representation,folder)
-                network.append(a)
+                network_rep.append(" ")
+                network.append(a[0])
+                network_def.append(a[1])
 
     for child in filet.getroot():
         if child.tag == "network_instance":
-            a = createNetworkInstance(child,network)
+            a = createNetworkInstance(child,network,network_def)
             network_instance.append(a)
         if child.tag == "machine_instance":
             if child.get(ESLI+"type") == "cw:Link":
+                machines_ordered[number] = ""
                 links.append(child)
+                missing.append(number)
+                number += 1
             else:
-
-                machine_instance.append(createMachineInstance(child,machine_representation,network_instance,machine_instance))
+                machines_ordered[number] = pos
+                number += 1
+                pos += 1
+                machine_instance.append(createMachineInstance(child,machine_representation,network_instance,network_rep,machine_instance))
         if child.tag == "network":
             if child.get(ESLI+"type")=="cw:Network_Rep_Instance":
-                a = createNetworkRepInstance(child,machine_representation,network,folder)
+                a = createNetworkRepInstance(child,machine_representation,network,folder,network_def)
                 network.append(a[0])
-                network_instance.append(a[1])
+                network_rep.append(a[1])
+    mischeck = 0
     for child in links:
-        print("links")
-        machine_instance.append(createMachineInstance(child,machine_representation,network_instance,machine_instance))
+        machines_ordered[missing[mischeck]] = pos
+        machine_instance.append(createMachineInstance(child,machine_representation,network_instance,network_rep,machine_instance))
+        pos += 1
+        mischeck += 1
     for child in filet.getroot():
         if child.tag == "group":
-            group.append(processGroup(child,machine_representation,machine_instance,network,network_instance))
+            a = processGroup(child,machine_representation,machine_instance,network_rep,network_instance,group,machines_ordered)
+            group.append(a[0])
+            groupnets.append(a[1])
     includemachine = []
     netmachine = []
     allmachines = network + machine_representation
 
-    print(network_instance)
     for machine in allmachines:
         includemachine.append({
-            "include":"machines/"+machine["name"]
+            "include":"machines/"+machine["name"] +".json"
         })
     
     for network in network:
         netmachine.append({
-            "include":"network/"+network["name"]
+            "include":"networks/"+network["name"]+".json"
         })
 
     input = {
-        "machines":includemachine,
+        "description":"test",
+        "machines":includemachine + groupnets,
         "networks":netmachine + group
     }
     file.write(str(json.dumps(input, indent = INDENT)))
 
-def processGroup(group,machineR,machineI,networks,networkRS):
+def processGroup(group,machineR,machineI,networks,networkRS,groups,machine_orders):
+    print("Creating Group: " + group.get("name"))
     allmachines = group.get("groupable").split(" ")
     machinesF = []
-    print(networkRS)
     for machine in allmachines:
         m = machine.split(".")
         if m[0] == "//@machine_instance":
-            machinesF.append(machineI[int(m[-1])])
-
+            machinesF.append(machineI[int(machine_orders[int(m[-1])])])
         if m[0] == "//@network_instance":
             machinesF.append(networkRS[int(m[-1])])
-
         if m[0] == "//@network":
-            pass
+            machinesF.append(networks[int(m[-1])])
+        if m[0] == "//@group":
+            machinesF.append({
+                "name":groups[int(m[-1])]["name"],
+                "machine":groups[int(m[-1])]["name"]
+            })
 
     data = {
         "name": group.get("name"),
         "machines":machinesF
     }
-    return data
+    networkinfo = {
+        "name":group.get("name"),
+        "type": "network-machine",
+        "structure": {
+            "network": group.get("name")
+      }
+    }
+    return data, networkinfo
 
-def createNetworkRepInstance(network,machines, networks, outputfolder):
+def createNetworkRepInstance(network,machines, networks, outputfolder, network_def):
+    print("Creating Non-defined Network: "+network.get("name"))
     machine = []
     nets = []
     links = []
@@ -119,22 +150,24 @@ def createNetworkRepInstance(network,machines, networks, outputfolder):
             if child.get(ESLI+"type") == "cw:Link":
                 links.append(child)
             else:
-                machine.append(createMachineInstance(child,machines,machine,nets))
+                machine.append(createMachineInstance(child,machines,nets,nets,machine))
         if child.tag == "property_r_c":
             a = calculate_r_c(child)
             properties = a
         if child.tag == "network_instance":
-            a = createNetworkInstance(child, networks)
+            a = createNetworkInstance(child, networks,network_def)
             nets.append(a)
 
     for child in links:
-        machine.append(createMachineInstance(child,machines,machine,nets))
+        machine.append(createMachineInstance(child,machines,nets,nets,machine))
         
     data = {
         "name": network.get("name"),
         "type": "network-machine",
         "properties": properties,
-        "structure": network.get("name")
+        "structure": {
+            "Network" : network.get("name")
+        }
     }
 
     machine_data = {
@@ -154,13 +187,16 @@ def createNetworkRepInstance(network,machines, networks, outputfolder):
         "properties": properties
     }
 
-def createNetworkInstance(network, networks):
+def createNetworkInstance(network, networks,networkdef):
+    print("Creating Network Instance: "+network.get("name"))
     properties = {}
     index = networks[int(network.get("network_representation").split(".")[-1])]
     for child in network:
+        property_r = child.get("property_r").split(".")[1].split("/")[0]
         if child.tag == "property_i_abstract":
+            pIndex = networkdef[int(property_r)]["properties"][child.get("name")]["type"]
             if child.get(ESLI+"type") == "cw:Property_I":
-                properties[child.get("name")] = processProperty(child)
+                properties[child.get("name")] = processProperty(child,pIndex)
             if child.get(ESLI+"type") == "cw:probabilistic_p":
                 properties[child.get("name")] =  processPProperty(child)
             if child.get(ESLI+"type") == "cw:deterministic_p":
@@ -174,29 +210,30 @@ def createNetworkInstance(network, networks):
     
     return data
 
-def fixLinks():
-    pass
 
 def createNetworkRep(network, networks, machinez,outputfolder):
-    properties = []
+    print("Creating Network Representation: "+ network.get("name"))
+    properties = {}
     machines = []
     links= []
     for child in network:
         if child.tag == "property_r_c":
-            properties.append(calculate_r_c(child))
+            properties=(calculate_r_c(child))
         if child.tag == "machine_instance":
             if child.get(ESLI+"type") == "cw:Link":
                 links.append(child)
             else:
-                machines.append(createMachineInstance(child,machinez,None,machines))
+                machines.append(createMachineInstance(child,machinez,None,None,machines))
 
     for child in links:
-        machines.append(createMachineInstance(child,machinez,None,machines))
+        machines.append(createMachineInstance(child,machinez,None,None,machines))
     machine_data = {
         "name": network.get("name"),
         "type": "network-machine",
         "properties": properties,
-        "structure": network.get("name")
+        "structure": {
+            "Network" : network.get("name")
+        }
     }
     network_data = {
         "name": network.get("name"),
@@ -208,17 +245,18 @@ def createNetworkRep(network, networks, machinez,outputfolder):
     file2 = open(outputfolder+"/machines/"+network.get("name")+".json", 'w+')
     file2.write(str(json.dumps(machine_data, indent = INDENT)))
 
-    return network_data
+    return network_data,machine_data
     
 
-def createMachineInstance(machine,machines,localnetworks,localmachines):
+def createMachineInstance(machine,machines,localnetworks,localnetinstances,localmachines):
+    print("Creating Machine Instance: "+machine.get("name"))
     properties = {}
     index = machines[int(machine.get("machine_representation").split(".")[-1])]
-    
     for child in machine:
         if child.tag == "property_i_abstract":
+            pIndex = index["properties"][child.get("name")]["type"]
             if child.get(ESLI+"type") == "cw:Property_I":
-                properties[child.get("name")] = processProperty(child)
+                properties[child.get("name")] = processProperty(child,pIndex)
             if child.get(ESLI+"type") == "cw:probabilistic_p":
                 properties[child.get("name")] =  processPProperty(child)
             if child.get(ESLI+"type") == "cw:deterministic_p":
@@ -227,16 +265,18 @@ def createMachineInstance(machine,machines,localnetworks,localmachines):
     if machine.get(ESLI+"type") == "cw:Link":
         to = machine.get("target").split("@")[-1].split(".")
         fr0m = machine.get("source").split("@")[-1].split(".")
-        print(fr0m)
-        if (to[0] == "network_instance") or (to[0] == "network"):
+        if (to[0] == "network_instance"):
             properties["to"] = localnetworks[int(to[1])].get("name")
-        if (fr0m[0] == "network_instance") or (fr0m[0] == "network"):
+        if (fr0m[0] == "network_instance"):
             properties["from"] = localnetworks[int(fr0m[1])].get("name")
+        if (to[0] == "network"):
+            properties["to"] = localnetinstances[int(to[1])].get("name")
+        if (fr0m[0] == "network"):
+            properties["from"] = localnetinstances[int(fr0m[1])].get("name")
+        
         if (fr0m[0] == "machine_instance"):
-            print(localmachines)
             properties["from"] = localmachines[int(fr0m[1])].get("name")
         if (to[0] == "machine_instance"):
-            print(localmachines)
             properties["to"] = localmachines[int(to[1])].get("name")
 
     data = {
@@ -248,26 +288,36 @@ def createMachineInstance(machine,machines,localnetworks,localmachines):
     
 
 
-def processProperty(propertyy):
-    data = {
-        "value":propertyy.get("value")
-    }
+def processProperty(propertyy,type):
+    if type == "Boolean" or type == "boolean":
+        if propertyy.get("value") == "True" or propertyy.get("value") == "true":
+            value = True
+        if propertyy.get("value") == "False" or propertyy.get("value") == "false":
+            value = False
+    elif type == "Number":
+        value = float(propertyy.get("value"))
+    else:
+        value = str(propertyy.get("value"))
+    
+    data = value
+    
     return data
 
 def processPProperty(property):
     return {
         "type": "probabilistic",
         "distribution": property.get("distribution"),
-        "parameter": property.get("parameter")
+        "parameter": float(property.get("parameter"))
     }
     
 def processDProperty(property):
         return {
         "type": "deterministic",
-        "parameter": property.get("parameter")
+        "parameter": float(property.get("parameter"))
     }
 
 def createMachineRep(machine,outputfolder):
+    print("Creating Machine Representation: "+machine.get("name"))
     property_r_c = {}
     transition_unlinked = []
     transition = {}
@@ -284,32 +334,34 @@ def createMachineRep(machine,outputfolder):
         fromid = state[int(tr.get("From").split(".")[-1])]
         toid = state[int((tr.get("To").split(".")[-1]))]
         if tr.get(ESLI+"type") == "cw:probabilistic":
-           trns = {
-               toid: {
+           trns =  {toid:[{
                     "type":"probabilistic",
                     "distribution": tr.get("distribution"),
-                    "parameter": tr.get("parameter"),
+                    "parameter": float(tr.get("parameter")),
                     "comment": tr.get("comment")
-               }
-           }
-           transition[fromid].append(trns)
+               }]}
+           transition[fromid] = trns
         if tr.get(ESLI+"type") == "cw:deterministic":
            trns = {
-               toid: {
+               toid: [{
                     "type":"deterministic",
-                    "parameter": tr.get("parameter"),
+                    "parameter": float(tr.get("parameter")),
                     "comment": tr.get("comment")
-               }
+               }]
            }
-           transition[fromid].append(trns)
+           transition[fromid] = trns
         if tr.get(ESLI+"type") == "cw:Property_Tr":
            trns = {
-               toid: {
+               toid: [{
                     "type":"property",
                     "property": tr.get("name")
-               }
+               }]
            }
-           transition[fromid].append(trns)
+           property_r_c[tr.get("name")] = {
+                "required": True,
+                "type": tr.get("type"),
+           }
+           transition[fromid] = trns
     data = {
         "name": machine.get("name"),
         "type": "state-machine",
@@ -330,9 +382,9 @@ def calculate_r_c(machine):
     properties = {}
     for child in machine:
         if child.get("required"):
-            req = 'true'
+            req = True
         else:
-            req = 'false'
+            req = False
         properties[child.get("name")] = {
             "required": req,
             "type": child.get("type"),

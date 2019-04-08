@@ -1,0 +1,40 @@
+{
+  "name": "Load Bay",
+  "machines": [
+    {
+      "name": "Breaker",
+      "machine": "Breaker",
+      "properties": {}
+    },
+    {
+      "name": "Primary Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Backup Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Battery",
+      "machine": "Battery",
+      "properties": {}
+    },
+    {
+      "name": "Wiring",
+      "machine": "Wiring",
+      "properties": {}
+    },
+    {
+      "name": "Switch",
+      "machine": "Switch",
+      "properties": {}
+    },
+    {
+      "name": "Load",
+      "machine": "Load",
+      "properties": {}
+    }
+  ]
+}
