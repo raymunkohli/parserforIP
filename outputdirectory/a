@@ -1,0 +1,1784 @@
+{
+  "description": "test",
+  "machines": [
+    {
+      "include": "machines/Generator Bay.json"
+    },
+    {
+      "include": "machines/Line Bay.json"
+    },
+    {
+      "include": "machines/Transformer Bay.json"
+    },
+    {
+      "include": "machines/Load Bay.json"
+    },
+    {
+      "include": "machines/Control Bay.json"
+    },
+    {
+      "include": "machines/Substation G1.json"
+    },
+    {
+      "include": "machines/Substation G2.json"
+    },
+    {
+      "include": "machines/Substation D1.json"
+    },
+    {
+      "include": "machines/Substation D2.json"
+    },
+    {
+      "include": "machines/Substation D3.json"
+    },
+    {
+      "include": "machines/Substation L1.json"
+    },
+    {
+      "include": "machines/Substation L2.json"
+    },
+    {
+      "include": "machines/Substation L3.json"
+    },
+    {
+      "include": "machines/Substation L4.json"
+    },
+    {
+      "include": "machines/Substation L5.json"
+    },
+    {
+      "include": "machines/Substation.json"
+    },
+    {
+      "include": "machines/Battery.json"
+    },
+    {
+      "include": "machines/Link.json"
+    },
+    {
+      "include": "machines/Generator.json"
+    },
+    {
+      "include": "machines/Load.json"
+    },
+    {
+      "include": "machines/Breaker.json"
+    },
+    {
+      "include": "machines/Relay.json"
+    },
+    {
+      "include": "machines/Current Transformer.json"
+    },
+    {
+      "include": "machines/Wiring.json"
+    },
+    {
+      "include": "machines/Switch.json"
+    },
+    {
+      "include": "machines/Workstation.json"
+    },
+    {
+      "include": "machines/Server.json"
+    },
+    {
+      "include": "machines/router.json"
+    },
+    {
+      "include": "machines/Firewall.json"
+    },
+    {
+      "include": "machines/Data Centre.json"
+    },
+    {
+      "include": "machines/Control Centre.json"
+    },
+    {
+      "include": "machines/Data Link.json"
+    },
+    {
+      "include": "machines/Attacker.json"
+    },
+    {
+      "name": "Substations",
+      "type": "network-machine",
+      "structure": {
+        "network": "Substations"
+      }
+    },
+    {
+      "name": "baseline",
+      "type": "network-machine",
+      "structure": {
+        "network": "baseline"
+      }
+    },
+    {
+      "name": "weekly-attacks",
+      "type": "network-machine",
+      "structure": {
+        "network": "weekly-attacks"
+      }
+    }
+  ],
+  "networks": [
+    {
+      "include": "networks/Generator Bay.json"
+    },
+    {
+      "include": "networks/Line Bay.json"
+    },
+    {
+      "include": "networks/Transformer Bay.json"
+    },
+    {
+      "include": "networks/Load Bay.json"
+    },
+    {
+      "include": "networks/Control Bay.json"
+    },
+    {
+      "include": "networks/Substation G1.json"
+    },
+    {
+      "include": "networks/Substation G2.json"
+    },
+    {
+      "include": "networks/Substation D1.json"
+    },
+    {
+      "include": "networks/Substation D2.json"
+    },
+    {
+      "include": "networks/Substation D3.json"
+    },
+    {
+      "include": "networks/Substation L1.json"
+    },
+    {
+      "include": "networks/Substation L2.json"
+    },
+    {
+      "include": "networks/Substation L3.json"
+    },
+    {
+      "include": "networks/Substation L4.json"
+    },
+    {
+      "include": "networks/Substation L5.json"
+    },
+    {
+      "name": "Substations",
+      "machines": [
+        {
+          "name": "G1-D1",
+          "machine": "Link",
+          "properties": {
+            "kV": "400",
+            "x": 8.0,
+            "max": 1200.0,
+            "overloaded": false,
+            "connected": true,
+            "length": 100.0,
+            "failure": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 1.5
+            },
+            "recovery": {
+              "type": "deterministic",
+              "parameter": 0.02
+            },
+            "to": "Substation D1",
+            "from": "Substation G1"
+          }
+        },
+        {
+          "name": "G1-D2",
+          "machine": "Link",
+          "properties": {
+            "kV": "400",
+            "x": 8.0,
+            "max": 1200.0,
+            "overloaded": false,
+            "connected": true,
+            "length": 100.0,
+            "failure": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 1.5
+            },
+            "recovery": {
+              "type": "deterministic",
+              "parameter": 0.002
+            },
+            "to": "Substation D2",
+            "from": "Substation G1"
+          }
+        },
+        {
+          "name": "G2-D2",
+          "machine": "Link",
+          "properties": {
+            "kV": "400",
+            "x": 8.0,
+            "max": 1200.0,
+            "overloaded": false,
+            "connected": true,
+            "length": 100.0,
+            "failure": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 1.5
+            },
+            "recovery": {
+              "type": "deterministic",
+              "parameter": 0.002
+            },
+            "to": "Substation D2",
+            "from": "Substation G2"
+          }
+        },
+        {
+          "name": "G2-D3",
+          "machine": "Link",
+          "properties": {
+            "kV": "400",
+            "x": 8.0,
+            "max": 1200.0,
+            "overloaded": false,
+            "connected": true,
+            "length": 100.0,
+            "failure": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 1.5
+            },
+            "recovery": {
+              "type": "deterministic",
+              "parameter": 0.002
+            },
+            "to": "Substation D3",
+            "from": "Substation G2"
+          }
+        },
+        {
+          "name": "D1-L1",
+          "machine": "Link",
+          "properties": {
+            "kV": "400",
+            "x": 1.0,
+            "max": 1200.0,
+            "overloaded": false,
+            "connected": true,
+            "length": 100.0,
+            "failure": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 1.5
+            },
+            "recovery": {
+              "type": "deterministic",
+              "parameter": 0.002
+            },
+            "to": "Substation L1",
+            "from": "Substation D1"
+          }
+        },
+        {
+          "name": "D1-L2",
+          "machine": "Link",
+          "properties": {
+            "kV": "400",
+            "x": 1.0,
+            "max": 1200.0,
+            "overloaded": false,
+            "connected": true,
+            "length": 100.0,
+            "failure": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 0.05
+            },
+            "recovery": {
+              "type": "deterministic",
+              "parameter": 0.002
+            },
+            "to": "Substation L2",
+            "from": "Substation D1"
+          }
+        },
+        {
+          "name": "D2-L3",
+          "machine": "Link",
+          "properties": {
+            "kV": "400",
+            "x": 1.0,
+            "max": 1200.0,
+            "overloaded": false,
+            "connected": true,
+            "length": 100.0,
+            "failure": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 1.5
+            },
+            "recovery": {
+              "type": "deterministic",
+              "parameter": 0.002
+            },
+            "to": "Substation L3",
+            "from": "Substation D2"
+          }
+        },
+        {
+          "name": "D3-L4",
+          "machine": "Link",
+          "properties": {
+            "kV": "400",
+            "x": 1.0,
+            "max": 1200.0,
+            "overloaded": false,
+            "connected": true,
+            "length": 100.0,
+            "failure": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 1.5
+            },
+            "recovery": {
+              "type": "deterministic",
+              "parameter": 0.002
+            },
+            "to": "Substation L4",
+            "from": "Substation D3"
+          }
+        },
+        {
+          "name": "D3-L5",
+          "machine": "Link",
+          "properties": {
+            "kV": "400",
+            "x": 1.0,
+            "max": 1200.0,
+            "overloaded": false,
+            "connected": true,
+            "length": 100.0,
+            "failure": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 0.05
+            },
+            "recovery": {
+              "type": "deterministic",
+              "parameter": 0.002
+            },
+            "to": "Substation L5",
+            "from": "Substation D3"
+          }
+        },
+        {
+          "name": "Substation G1",
+          "machine": "Substation G1",
+          "properties": {}
+        },
+        {
+          "name": "Substation G2",
+          "machine": "Substation G2",
+          "properties": {}
+        },
+        {
+          "name": "Substation D1",
+          "machine": "Substation D1",
+          "properties": {}
+        },
+        {
+          "name": "Substation D2",
+          "machine": "Substation D2",
+          "properties": {}
+        },
+        {
+          "name": "Substation D3",
+          "machine": "Substation D3",
+          "properties": {}
+        },
+        {
+          "name": "Substation L1",
+          "machine": "Substation L1",
+          "properties": {}
+        },
+        {
+          "name": "Substation L2",
+          "machine": "Substation L2",
+          "properties": {}
+        },
+        {
+          "name": "Substation L3",
+          "machine": "Substation L3",
+          "properties": {}
+        },
+        {
+          "name": "Substation L4",
+          "machine": "Substation L4",
+          "properties": {}
+        },
+        {
+          "name": "Substation L5",
+          "machine": "Substation L5",
+          "properties": {}
+        }
+      ]
+    },
+    {
+      "name": "baseline",
+      "machines": [
+        {
+          "name": "Substations",
+          "machine": "Substations"
+        }
+      ]
+    },
+    {
+      "name": "weekly-attacks",
+      "machines": [
+        {
+          "name": "Substations",
+          "machine": "Substations"
+        },
+        {
+          "name": "Attacker",
+          "machine": "Attacker",
+          "properties": {
+            "frequency": {
+              "type": "probabilistic",
+              "distribution": "exponential",
+              "parameter": 52.0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}cat: machines: Is a directory
+cat: networks: Is a directory
+{
+  "name": "Attacker",
+  "type": "state-machine",
+  "properties": {
+    "frequency": {
+      "required": true,
+      "type": "Activation"
+    }
+  },
+  "structure": {
+    "states": [
+      "idle",
+      "firewallRule1",
+      "attack",
+      "firewallRule2",
+      "firewallRule3",
+      "firewallRule4",
+      "firewallRule5",
+      "success",
+      "detected",
+      "modifyThreshold"
+    ],
+    "initial": "idle",
+    "transitions": {
+      "idle": {
+        "attack": [
+          {
+            "type": "property",
+            "property": "frequency"
+          }
+        ]
+      },
+      "firewallRule1": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "attack": {
+        "firewallRule5": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 8736.0,
+            "comment": ""
+          }
+        ]
+      },
+      "firewallRule2": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "firewallRule3": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "firewallRule4": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "firewallRule5": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "success": {
+        "modifyThreshold": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 52560.0,
+            "comment": null
+          }
+        ]
+      },
+      "detected": {
+        "idle": [
+          {
+            "type": "deterministic",
+            "parameter": 3.170979198376e-08,
+            "comment": null
+          }
+        ]
+      },
+      "modifyThreshold": {
+        "detected": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 2920.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Battery",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "fail",
+      "ok"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      },
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Breaker",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "deterministic",
+            "parameter": 0.00086,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Control Bay",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Control Bay"
+  }
+}{
+  "name": "Control Centre",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": []
+    }
+  }
+}{
+  "name": "Current Transformer",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Data Centre",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "fail",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 1e-08,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Data Link",
+  "type": "state-machine",
+  "properties": {
+    "failure": {
+      "required": true,
+      "type": null
+    }
+  },
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "property",
+            "property": "failure"
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "deterministic",
+            "parameter": 0.0069444444444,
+            "comment": "60 hours"
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Firewall",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Generator Bay",
+  "type": "network-machine",
+  "properties": {
+    "Capacity": {
+      "required": true,
+      "type": "Number",
+      "properties": {}
+    },
+    "Connected": {
+      "required": true,
+      "type": "Boolean",
+      "properties": {}
+    }
+  },
+  "structure": {
+    "Network": "Generator Bay"
+  }
+}{
+  "name": "Generator",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1691,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "deterministic",
+            "parameter": 0.00373287671233,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Line Bay",
+  "type": "network-machine",
+  "properties": {
+    "line": {
+      "required": true,
+      "type": "String",
+      "properties": {}
+    }
+  },
+  "structure": {
+    "Network": "Line Bay"
+  }
+}{
+  "name": "Link",
+  "type": "state-machine",
+  "properties": {
+    "kV": {
+      "required": true,
+      "type": "String",
+      "properties": {}
+    },
+    "x": {
+      "required": true,
+      "type": "Number",
+      "properties": {}
+    },
+    "max": {
+      "required": true,
+      "type": "Number",
+      "properties": {}
+    },
+    "overloaded": {
+      "required": true,
+      "type": "Boolean",
+      "properties": {}
+    },
+    "connected": {
+      "required": true,
+      "type": "Boolean",
+      "properties": {}
+    },
+    "length": {
+      "required": true,
+      "type": "Number",
+      "properties": {}
+    },
+    "to": {
+      "required": true,
+      "type": "Lookup",
+      "properties": {
+        "list": "machines",
+        "filter": "name === 'Substation'",
+        "value": "name"
+      }
+    },
+    "from": {
+      "required": true,
+      "type": "Lookup",
+      "properties": {
+        "list": "machines",
+        "filter": "name === 'Substation'",
+        "value": "name"
+      }
+    },
+    "failure": {
+      "required": true,
+      "type": "Activation"
+    },
+    "recovery": {
+      "required": true,
+      "type": "Activation"
+    }
+  },
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "property",
+            "property": "failure"
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "property",
+            "property": "recovery"
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Load Bay",
+  "type": "network-machine",
+  "properties": {
+    "power": {
+      "required": true,
+      "type": "Number",
+      "properties": {}
+    },
+    "connected": {
+      "required": true,
+      "type": "Boolean",
+      "properties": {}
+    }
+  },
+  "structure": {
+    "Network": "Load Bay"
+  }
+}{
+  "name": "Load",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 365.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Relay",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Server",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Substation D1",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation D1"
+  }
+}{
+  "name": "Substation D2",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation D2"
+  }
+}{
+  "name": "Substation D3",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation D3"
+  }
+}{
+  "name": "Substation G1",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation G1"
+  }
+}{
+  "name": "Substation G2",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation G2"
+  }
+}{
+  "name": "Substation L1",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation L1"
+  }
+}{
+  "name": "Substation L2",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation L2"
+  }
+}{
+  "name": "Substation L3",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation L3"
+  }
+}{
+  "name": "Substation L4",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation L4"
+  }
+}{
+  "name": "Substation L5",
+  "type": "network-machine",
+  "properties": {},
+  "structure": {
+    "Network": "Substation L5"
+  }
+}{
+  "name": "Substation",
+  "type": "state-machine",
+  "properties": {
+    "load": {
+      "required": true,
+      "type": "Number",
+      "properties": {}
+    }
+  },
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Switch",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Transformer Bay",
+  "type": "network-machine",
+  "properties": {
+    "line": {
+      "required": true,
+      "type": "String",
+      "properties": {}
+    }
+  },
+  "structure": {
+    "Network": "Transformer Bay"
+  }
+}{
+  "name": "Wiring",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Workstation",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "router",
+  "type": "state-machine",
+  "properties": {},
+  "structure": {
+    "states": [
+      "ok",
+      "fail"
+    ],
+    "initial": "ok",
+    "transitions": {
+      "ok": {
+        "fail": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 0.1,
+            "comment": null
+          }
+        ]
+      },
+      "fail": {
+        "ok": [
+          {
+            "type": "probabilistic",
+            "distribution": "exponential",
+            "parameter": 20.0,
+            "comment": null
+          }
+        ]
+      }
+    }
+  }
+}{
+  "name": "Control Bay",
+  "machines": [
+    {
+      "name": "Engineering Workstation",
+      "machine": "Workstation",
+      "properties": {}
+    },
+    {
+      "name": "HMI",
+      "machine": "Workstation",
+      "properties": {}
+    },
+    {
+      "name": "Server 1",
+      "machine": "Server",
+      "properties": {}
+    },
+    {
+      "name": "Server 2",
+      "machine": "Server",
+      "properties": {}
+    },
+    {
+      "name": "Router",
+      "machine": "router",
+      "properties": {}
+    },
+    {
+      "name": "Firewall",
+      "machine": "Firewall",
+      "properties": {}
+    },
+    {
+      "name": "Switch",
+      "machine": "Switch",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Generator Bay",
+  "machines": [
+    {
+      "name": "Generator",
+      "machine": "Generator",
+      "properties": {}
+    },
+    {
+      "name": "Breaker",
+      "machine": "Breaker",
+      "properties": {}
+    },
+    {
+      "name": "Primary Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Backup Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Current Transformer",
+      "machine": "Current Transformer",
+      "properties": {}
+    },
+    {
+      "name": "Battery",
+      "machine": "Battery",
+      "properties": {}
+    },
+    {
+      "name": "Wiring",
+      "machine": "Wiring",
+      "properties": {}
+    },
+    {
+      "name": "Switch",
+      "machine": "Switch",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Line Bay",
+  "machines": [
+    {
+      "name": "Breaker",
+      "machine": "Breaker",
+      "properties": {}
+    },
+    {
+      "name": "Primary Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Backup Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Battery",
+      "machine": "Battery",
+      "properties": {}
+    },
+    {
+      "name": "Wiring",
+      "machine": "Wiring",
+      "properties": {}
+    },
+    {
+      "name": "Switch",
+      "machine": "Switch",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Load Bay",
+  "machines": [
+    {
+      "name": "Breaker",
+      "machine": "Breaker",
+      "properties": {}
+    },
+    {
+      "name": "Primary Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Backup Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Battery",
+      "machine": "Battery",
+      "properties": {}
+    },
+    {
+      "name": "Wiring",
+      "machine": "Wiring",
+      "properties": {}
+    },
+    {
+      "name": "Switch",
+      "machine": "Switch",
+      "properties": {}
+    },
+    {
+      "name": "Load",
+      "machine": "Load",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Substation D1",
+  "machines": [
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G1-D1"
+      }
+    },
+    {
+      "name": "Line Bay 3",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D1-L2"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    },
+    {
+      "name": "Line Bay 2",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D1-L1"
+      }
+    }
+  ]
+}{
+  "name": "Substation D2",
+  "machines": [
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G1-D2"
+      }
+    },
+    {
+      "name": "Line Bay 2",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G2-D2"
+      }
+    },
+    {
+      "name": "Line Bay 3",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D2-L3"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Substation D3",
+  "machines": [
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G2-D3"
+      }
+    },
+    {
+      "name": "Line Bay 2",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D3-L4"
+      }
+    },
+    {
+      "name": "Line Bay 3",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D3-L5"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Substation G1",
+  "machines": [
+    {
+      "name": "Generator Bay",
+      "machine": "Generator Bay",
+      "properties": {
+        "Capacity": 1000.0,
+        "Connected": true
+      }
+    },
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G1-D1"
+      }
+    },
+    {
+      "name": "Line Bay 2",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G1-D2"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Substation G2",
+  "machines": [
+    {
+      "name": "Generator Bay",
+      "machine": "Generator Bay",
+      "properties": {
+        "Capacity": 1000.0,
+        "Connected": true
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    },
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G2-D2"
+      }
+    },
+    {
+      "name": "Line Bay 2",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "G2-D3"
+      }
+    }
+  ]
+}{
+  "name": "Substation L1",
+  "machines": [
+    {
+      "name": "Load Bay",
+      "machine": "Load Bay",
+      "properties": {
+        "power": 400.0,
+        "connected": true
+      }
+    },
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D1-L1"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Substation L2",
+  "machines": [
+    {
+      "name": "Load Bay",
+      "machine": "Load Bay",
+      "properties": {
+        "power": 400.0,
+        "connected": true
+      }
+    },
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D1-L2"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Substation L3",
+  "machines": [
+    {
+      "name": "Load Bay",
+      "machine": "Load Bay",
+      "properties": {
+        "power": 400.0,
+        "connected": true
+      }
+    },
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D2-L3"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Substation L4",
+  "machines": [
+    {
+      "name": "Line Bay 1",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D3-L4"
+      }
+    },
+    {
+      "name": "Load Bay",
+      "machine": "Load Bay",
+      "properties": {
+        "power": 400.0,
+        "connected": true
+      }
+    }
+  ]
+}{
+  "name": "Substation L5",
+  "machines": [
+    {
+      "name": "Load Bay",
+      "machine": "Load Bay",
+      "properties": {
+        "power": 400.0,
+        "connected": true
+      }
+    },
+    {
+      "name": "Line Bay",
+      "machine": "Line Bay",
+      "properties": {
+        "line": "D3-L5"
+      }
+    },
+    {
+      "name": "Control Bay",
+      "machine": "Control Bay",
+      "properties": {}
+    }
+  ]
+}{
+  "name": "Transformer Bay",
+  "machines": [
+    {
+      "name": "Breaker",
+      "machine": "Breaker",
+      "properties": {}
+    },
+    {
+      "name": "Primary Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Backup Relay",
+      "machine": "Relay",
+      "properties": {}
+    },
+    {
+      "name": "Battery",
+      "machine": "Battery",
+      "properties": {}
+    },
+    {
+      "name": "Wiring",
+      "machine": "Wiring",
+      "properties": {}
+    },
+    {
+      "name": "Switch",
+      "machine": "Switch",
+      "properties": {}
+    }
+  ]
+}
